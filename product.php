@@ -1,5 +1,10 @@
 <?php
-
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: index.html');
+	exit;
+}
 include('productserver.php');
 
 ?>
@@ -31,6 +36,24 @@ include('productserver.php');
 
 <!-- Form Name -->
 <legend>PRODUCTS</legend>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="shop_name">SHOP</label>
+  <div class="col-md-4">
+    <select id="shop_name" name="shop_name" class="form-control">
+    <option selected="selected">Choose one</option>
+      <?php
+      include 'conndb.php';
+      $sqli = "SELECT * FROM shops";
+$result = mysqli_query($con, $sqli);
+while ($row = mysqli_fetch_array($result)) {
+  echo '<option value = '.$row['shop_id'].'>'.$row['shop_name'].'</option>';
+  }
+      ?>
+
+    </select>
+
+  </div>
+</div>
 
 <!-- Text input-->
 <div class="form-group">
@@ -61,10 +84,21 @@ include('productserver.php');
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="product_categorie">PRODUCT CATEGORY</label>
+  <label class="col-md-4 control-label" for="product_categorie_id">PRODUCT CATEGORY</label>
   <div class="col-md-4">
-    <select id="product_categorie" name="product_categorie" class="form-control">
+    <select id="product_categorie_id" name="product_categorie" class="form-control">
+    <option selected="selected">Choose one</option>
+      <?php
+      include 'conndb.php';
+      $sqli = "SELECT * FROM product_category";
+$result = mysqli_query($con, $sqli);
+while ($row = mysqli_fetch_array($result)) {
+  echo '<option value = '.$row['cat_id'].'>'.$row['cat_name'].'</option>';
+  }
+      ?>
+
     </select>
+
   </div>
 </div>
 
@@ -170,6 +204,9 @@ include('productserver.php');
   <label class="col-md-4 control-label" for="enable_display">ENABLE DISPLAY</label>  
   <div class="col-md-4">
   <select id="enable_display" name="enable_display" class="form-control">
+  <option value="yes">Yes</option>
+  <option value="no">No</option>
+
     </select>
   </div>
 </div>

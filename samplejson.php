@@ -1,15 +1,10 @@
 <?php
 header("Content-type: application/json; charset=utf-8");
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = 'Spirit123*';
-$DATABASE_NAME = 'star_login';
-$db = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-$query = "SELECT * FROM `products` WHERE 1";
-$result = mysqli_query($db, $query);
+include 'conndb.php';
+$query = "SELECT products.product_name, products.product_price, products.product_cat, product_category.cat_name FROM products, product_category WHERE products.product_cat_id = product_category.cat_id";
+$result = mysqli_query($con, $query);
 $rows = array();
-while($row = $result->fetch_array()){
+while($row = mysqli_fetch_assoc($result)){
     $rows[] = $row;
 }
 //Return result to jTable
