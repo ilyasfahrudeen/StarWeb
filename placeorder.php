@@ -13,7 +13,7 @@ include('productserver.php');
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Add product</title>
+		<title>Profile Page</title>
 		<link href="style.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 	</head>
@@ -31,7 +31,7 @@ include('productserver.php');
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal" method='post' action='#' enctype='multipart/form-data'>
+<form class="form-horizontal">
 <fieldset>
 
 <!-- Form Name -->
@@ -56,13 +56,13 @@ while ($row = mysqli_fetch_array($result)) {
 </div>
 
 <!-- Text input-->
-<!-- <div class="form-group">
+<div class="form-group">
   <label class="col-md-4 control-label" for="product_id">PRODUCT ID</label>  
   <div class="col-md-4">
   <input id="product_id" name="product_id" placeholder="PRODUCT ID" class="form-control input-md" required="" type="text">
     
   </div>
-</div> -->
+</div>
 
 <!-- Text input-->
 <div class="form-group">
@@ -237,19 +237,18 @@ while ($row = mysqli_fetch_array($result)) {
      -->
  <!-- File Button --> 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="image">main_image</label>
+  <label class="col-md-4 control-label" for="filebutton">main_image</label>
   <div class="col-md-4">
-  <input type="file" name="image" >
-    <!-- <input id="filebutton" name="filebutton" class="input-file" type="file"> -->
+    <input id="filebutton" name="filebutton" class="input-file" type="file">
   </div>
 </div>
-=<!-- File Button --> 
-<!-- <div class="form-group">
+<!-- File Button --> 
+<div class="form-group">
   <label class="col-md-4 control-label" for="filebutton">auxiliary_images</label>
   <div class="col-md-4">
     <input id="filebutton" name="filebutton" class="input-file" type="file">
   </div>
-</div> -->
+</div>
 
 <!-- Button -->
 <div class="form-group">

@@ -31,7 +31,7 @@ include('categoryserver.php');
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal">
+<form class="form-horizontal" method='post' action='#' enctype='multipart/form-data'>
 <fieldset>
 
 <!-- Form Name -->
@@ -62,9 +62,10 @@ while ($row = mysqli_fetch_array($result)) {
   </div>
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="filebutton">auxiliary_images</label>
+  <label class="col-md-4 control-label" for="image">main_image</label>
   <div class="col-md-4">
-    <input id="filebutton" name="filebutton" class="input-file" type="file">
+  <input type="file" name="image" >
+    <!-- <input id="filebutton" name="filebutton" class="input-file" type="file"> -->
   </div>
 </div>
 
