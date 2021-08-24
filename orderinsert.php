@@ -17,7 +17,7 @@ if ($_POST) {
         $status = $_POST['status'];
      //   $query = "UPDATE `orders` SET `quantity`=".$quantity.",`price`=".$price.",`order_status`=".$remark.",`remark`= ".$remark.",`product_name`=".$product." WHERE `order_id` =".$orderId;
      //   echo json_encode(array("status" => 1));
-     $query = "UPDATE `orders` SET `product_name`='".$product."', `quantity`='".$quantity."' , `price`='".$price."', `remark`='".$remark."', `order_status`='".$status."' WHERE order_id ='".$orderId."'";
+     $query = "UPDATE `orders` SET `remark`='".$remark."', `order_status`='".$status."' WHERE order_id ='".$orderId."'";
         if (mysqli_query($con,$query)){
             echo json_encode(array("status" => 1));
         }
@@ -59,12 +59,6 @@ if(isset($_POST["order_id"]))
            $output .= '  
            <label for="exampleFormControlTextarea1"> Order ID</label>
            <input class="form-control" readonly id="order_id" name="order_id" value="'.$row['order_id'].'">
-           <label for="exampleFormControlTextarea1"> Product</label>
-           <input class="form-control" id="product_name" name="product_name" value="'.$row['product_name'].'">
-           <label for="exampleFormControlTextarea1"> Quantity</label>
-           <input class="form-control" id="quantity" name="quantity" value="'.$row['quantity'].'">
-           <label for="exampleFormControlTextarea1"> Price</label>
-           <input class="form-control" id="price" name="price" value="'.$row['price'].'">
            <label for="exampleFormControlTextarea1"> Remark</label>
            <input class="form-control" id="remark" name="remark" value="'.$row['remark'].'">
            <label for="exampleFormControlTextarea1"> Delivery Status</label>
@@ -79,4 +73,44 @@ if(isset($_POST["order_id"]))
       echo $output;  
  }  
 }
+
+
+if(isset($_POST["order_id_view"]))  
+ {  
+   
+    $shop_query = "SELECT * FROM shops";
+    $shop_result = mysqli_query($con, $shop_query);
+
+    $delivery = '';
+
+    
+
+      $output = '';  
+      $query = "SELECT * FROM `orders_products` WHERE `order_id` ='".$_POST["order_id_view"]."'";  
+      $result = mysqli_query($con, $query);  
+      $output .= '  
+      <div class="bs-example">
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Product Name</th>
+                      <th>Quantity</th>
+                  </tr>
+              </thead>
+              ';  
+      while($row = mysqli_fetch_array($result))  
+      {  
+           $output .= '<tbody>
+            <td> '.$row['product_name'].'</td>
+           <td> '.$row['quantity'].'</td>
+           </tbody>';  
+      }  
+      $output .= '  
+      
+      </table>
+      </div>  
+      ';  
+      echo $output;  
+ }  
+
 ?>

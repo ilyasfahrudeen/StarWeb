@@ -30,7 +30,7 @@ while($row = mysqli_fetch_assoc($result)){
          }
 
 
-        $catNames[] = array('cat_id'=>$cat_id, 'cat_name'=>$cat_name,'shop_id'=>$shop_id,'products'=>$productNames);
+        $catNames[] = array('cat_id'=>$cat_id, 'cat_name'=>$cat_name,'shop_id'=>$shop_id,'cat_image'=>$cat_image,'products'=>$productNames);
 
     }
 

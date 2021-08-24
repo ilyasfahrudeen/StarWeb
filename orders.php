@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 include('orderserver.php');
-header("refresh: 25;");
+header("refresh: 40;");
 
 
 ?>
@@ -64,11 +64,11 @@ header("refresh: 25;");
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Shop</th>
-                <th>Category</th>
-                <th>Product</th>
+                <!-- <th>Shop</th> -->
+                <th>User Name</th>
+                <!-- <th>Product</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Price</th> -->
                 <th>Phone Number</th>
                 <th>Address</th>
                 <th>Time</th>
@@ -85,6 +85,9 @@ header("refresh: 25;");
       $sqli = "SELECT * FROM orders ORDER BY order_status";
 $result = mysqli_query($con, $sqli);
 while ($row = mysqli_fetch_array($result)) {
+    $get_user_query = "SELECT * FROM `user_details` WHERE `user_id` =".$row['user_id'];
+    $user_result = mysqli_query($con, $get_user_query);
+  
     if($row['order_status'] == '1'){
     echo '<tr class="table-warning">';
     $row['order_status'] = 'Pending';
@@ -96,20 +99,26 @@ while ($row = mysqli_fetch_array($result)) {
           $row['order_status'] = 'Cancelled';
      }
  // echo '<td> '.$row['order_id'].'</td>';
- echo '<td name="MyTable" width="35%"><input type="hidden" name="td_1" value="value_1">'.$row['order_id'].'</td>';
-  echo '<td> '.$row['shop_name'].'</td>';
-  echo '<td> '.$row['cat_name'].'</td>';
-  echo '<td> '.$row['product_name'].'</td>';
-  echo '<td> '.$row['quantity'].'</td>';
-  echo '<td> '.$row['price'].'</td>';
+ echo '<td name="MyTable" ><input type="hidden" name="td_1" value="value_1">'.$row['order_id'].'</td>';
+//   echo '<td> '.$row['shop_name'].'</td>';
+  while($user_row = mysqli_fetch_array($user_result)){
+    echo '<td> '.$user_row['name'].'</td>';
+}
+  
+//   echo '<td> '.$row['product_name'].'</td>';
+//   echo '<td> '.$row['quantity'].'</td>';
+//   echo '<td> '.$row['price'].'</td>';
   echo '<td> '.$row['phone_number'].'</td>';
   echo '<td> '.$row['address'].'</td>';
-  echo '<td> '.$row['order_time'].'</td>';
-  echo '<td> '.$row['order_date'].'</td>';
+  echo '<td> '.date('h:i A', strtotime($row['order_time'])).'</td>';
+  echo '<td> '.date("d-m-Y",strtotime($row['order_time'])).'</td>';
   echo '<td> '.$row['order_status'].'</td>';
   echo '<td> '.$row['remark'].'</td>';
-  echo '<td><input type="button" name="view" value="view" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_data" data-toggle="modal" data-target="#staticBackdrop"/></td>';
-//   echo '<td><button class="clsActionButton" id="idEditButton">Edit</button></td></tr>';
+  echo '<td><input type="button" name="view" value="view" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_item" data-toggle="modal" data-target="#dd"/></td>';
+  echo '<td><input type="button" name="edit" value="edit" id="'.$row['order_id'].'" class="btn btn-info btn-xs edit_data" data-toggle="modal" data-target="#dd"/></td>';
+  echo '<td><input type="button" name="status" value="status" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_data" data-toggle="modal" data-target="#staticBackdrop"/></td>';
+
+  //   echo '<td><button class="clsActionButton" id="idEditButton">Edit</button></td></tr>';
   }
       ?>
                
@@ -245,6 +254,88 @@ while ($row = mysqli_fetch_array($result)) {
                     var dataResult = JSON.parse(dataResult);
                     if (dataResult.status == 1) {
                         $('#dataModal').modal().hide();
+                        swal("Setting Updated!", {
+                            icon: "success",
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        });
+
+   
+</script>
+<!-- View Orders -->
+<div id="OrderdataModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <!-- <h4 class="modal-title">Employee Details</h4> -->
+                </div>
+               
+                <div class="modal-body" id="view_detail">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+         $(document).on("click", "#update_data", function() {
+           // alert("Hello! I am an alert box!!");
+            var orderId = $('#order_id').val();
+            var product = $('#product_name').val();
+            var quantity = $('#quantity').val();
+            var price = $('#price').val();
+            var remark = $('#remark').val();
+            var status = $('#status').val();
+
+            $.ajax({
+                url: "orderinsert.php",
+                type: "POST",
+                catch: false,
+                data: {
+                    added: 1,
+                    orderId: orderId,
+                    product: product,
+                    quantity: quantity,
+                    price: price,
+                    remark: remark,
+                    status: status
+                },
+                success: function(dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.status == 1) {
+                      //  $('#dataModal').modal().hide();
+                        swal("Setting Updated!", {
+                            icon: "success",
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    } else{
+                        alert("Data Inserted Error!");
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.view_item', function() {
+            var order_id = $(this).attr("id");
+            $.ajax({
+                url: "orderinsert.php",
+                method: "POST",
+                data: {
+                    order_id_view: order_id
+                },
+                success: function(data) {
+                    $('#view_detail').html(data);
+                    $('#OrderdataModal').modal('show');
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.status == 1) {
+                        $('#OrderdataModal').modal().hide();
                         swal("Setting Updated!", {
                             icon: "success",
                         }).then((result) => {
