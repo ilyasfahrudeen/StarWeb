@@ -19,7 +19,7 @@ if (!isset($_SESSION['loggedin'])) {
 	<body class="loggedin">
 		<nav class="navtop">
 			<div>
-				<h1>Website Title</h1>
+				<h1>Star Online</h1>
 				<a href="orders.php"><i class="fas fa-user-circle"></i>Orders</a>
                 <a href="category.php"><i class="fas fa-user-circle"></i>Category</a>
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>

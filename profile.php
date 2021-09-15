@@ -29,6 +29,8 @@ $stmt->close();
 		<nav class="navtop">
 			<div>
 				<h1>Website Title</h1>
+				<a href="orders.php"><i class="fas fa-user-circle"></i>Orders</a>
+                <a href="category.php"><i class="fas fa-user-circle"></i>Category</a>
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>

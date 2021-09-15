@@ -30,6 +30,8 @@ header("refresh: 40;");
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
+                }else{
+                    echo '<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }
                 ?>
 			</div>
@@ -120,7 +122,9 @@ $result_count = mysqli_query(
 
 
       
-      $sqli = "SELECT * FROM orders ORDER BY order_status ASC LIMIT $offset, $total_records_per_page";
+      $sqli = "SELECT DISTINCT orders.* FROM orders WHERE EXISTS (SELECT * FROM orders_products WHERE orders.order_id=orders_products.order_id AND orders_products.shop_id=".$_SESSION['shop_id'].")
+      ORDER BY order_status ASC LIMIT $offset, $total_records_per_page";
+      
 $result = mysqli_query($con, $sqli);
 while ($row = mysqli_fetch_array($result)) {
     $get_user_query = "SELECT * FROM `user_details` WHERE `user_id` =".$row['user_id'];
@@ -154,8 +158,9 @@ while ($row = mysqli_fetch_array($result)) {
   echo '<td> '.$row['remark'].'</td>';
   echo '<td><input type="button" name="view" value="view" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_item" data-toggle="modal" data-target="#dd"/></td>';
   echo '<td><input type="button" name="edit" value="edit" id="'.$row['order_id'].'" class="btn btn-info btn-xs edit_data" data-toggle="modal" data-target="#dd"/></td>';
+  if($_SESSION['is_admin'] == 0){
   echo '<td><input type="button" name="status" value="status" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_data" data-toggle="modal" data-target="#staticBackdrop"/></td>';
-
+  }
   //   echo '<td><button class="clsActionButton" id="idEditButton">Edit</button></td></tr>';
   }
   

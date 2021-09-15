@@ -5,7 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
 	header('Location: index.html');
 	exit;
 }
-include('categoryserver.php');
+include('shopserver.php');
 
 ?>
 
@@ -37,29 +37,11 @@ include('categoryserver.php');
 <fieldset>
 
 <!-- Form Name -->
-<legend>PRODUCTS</legend>
+<legend>Shops</legend>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="shop_name">SHOP</label>
+  <label class="col-md-4 control-label" for="shop_name">Shop Name</label>  
   <div class="col-md-4">
-    <select id="shop_name" name="shop_name" class="form-control">
-    <option selected="selected">Choose one</option>
-      <?php
-      include 'conndb.php';
-      $sqli = "SELECT * FROM shops";
-$result = mysqli_query($con, $sqli);
-while ($row = mysqli_fetch_array($result)) {
-  echo '<option value = '.$row['shop_id'].'>'.$row['shop_name'].'</option>';
-  }
-      ?>
-
-    </select>
-
-  </div>
-</div>
-<div class="form-group">
-  <label class="col-md-4 control-label" for="category_name">Category Name</label>  
-  <div class="col-md-4">
-  <input id="category_name" name="category_name" placeholder="Category Name" class="form-control input-md" required="" type="text">
+  <input id="shop_name" name="shop_name" placeholder="Shop Name" class="form-control input-md" required="" type="text">
     
   </div>
 </div>

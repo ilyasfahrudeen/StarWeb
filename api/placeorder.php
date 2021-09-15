@@ -26,7 +26,7 @@ if ($order_result = mysqli_query($con, $order_qurey) === TRUE) {
    $quantity = $order_pro['quantity'];
    $cat_id = $order_pro['cat_id'];
    $shop_id = $order_pro['shop_id'];
-   $order_product_query = "INSERT INTO `orders_products` (`order_id`, `product_name`, `product_id`, `cat_id`, `shop_id`, `quantity`, `price`, `user_id`) 
+   $order_product_query = "INSERT INTO `orders_products` (`order_id`, `product_name`, `product_id`, `cat_id`, `shop_id`, `quantity`, `product_price`, `user_id`) 
    VALUES (LAST_INSERT_ID(), '".$product_name."', '".$product_id."', '".$cat_id."', '".$shop_id."', '".$quantity."', '".$product_price."', '".$user_id."')";
    mysqli_query($con, $order_product_query);
    }

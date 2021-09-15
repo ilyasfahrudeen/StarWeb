@@ -1,6 +1,7 @@
 <?php 
-    header("refresh: 3;");
 
+    header("refresh: 3;");
+    session_start();
 include('conndb.php');
 
 if ($_POST) {
@@ -78,15 +79,16 @@ if(isset($_POST["order_id"]))
 if(isset($_POST["order_id_view"]))  
  {  
    
-    $shop_query = "SELECT * FROM shops";
-    $shop_result = mysqli_query($con, $shop_query);
-
-    $delivery = '';
+    
 
     
 
       $output = '';  
-      $query = "SELECT * FROM `orders_products` WHERE `order_id` ='".$_POST["order_id_view"]."'";  
+      if($_SESSION['shop_id']=='0'){
+        $query = "SELECT * FROM `orders_products` WHERE `order_id` ='".$_POST["order_id_view"]."'";  
+    }else{
+      $query = "SELECT * FROM `orders_products` WHERE shop_id=".$_SESSION['shop_id']." AND `order_id` ='".$_POST["order_id_view"]."'";  
+      }
       $result = mysqli_query($con, $query);  
       $output .= '  
       <div class="bs-example">
@@ -95,15 +97,21 @@ if(isset($_POST["order_id_view"]))
                   <tr>
                       <th>Product Name</th>
                       <th>Quantity</th>
+                      <th>Shop Name</th>
                   </tr>
               </thead>
               ';  
       while($row = mysqli_fetch_array($result))  
       {  
+        $shop_query = "SELECT * FROM shops WHERE shop_id=".$row['shop_id'];
+        $shop_result = mysqli_query($con, $shop_query);
            $output .= '<tbody>
             <td> '.$row['product_name'].'</td>
-           <td> '.$row['quantity'].'</td>
-           </tbody>';  
+            <td> '.$row['quantity'].'</td>';
+            while($sho = mysqli_fetch_array($shop_result)){
+            $output .= '<td> '.$sho['shop_name'].'</td>';
+            }
+            $output .= '</tbody>';  
       }  
       $output .= '  
       

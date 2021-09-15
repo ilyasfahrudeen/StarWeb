@@ -1,8 +1,15 @@
 <?php
 header("Content-type: application/json; charset=utf-8");
 include '../conndb.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ 
+    $json = file_get_contents('php://input');
+    $obj = json_decode($json,true);
+    $token = $obj['token'];
 //$query = "SELECT products.product_name, products.product_price, products.product_cat, product_category.cat_name FROM products, product_category WHERE products.product_cat_id = product_category.cat_id";
-$query = "SELECT * FROM `shops`";
+if($token == "fasdt43288s9a93wy89fhdsa982yfr94ewiuf2987reuiqwfr89"){
+$query = "SELECT * FROM `shops` WHERE is_show=0";
 $result = mysqli_query($con, $query);
 $rows = array();
 $shops = array();
@@ -12,7 +19,7 @@ while($row = mysqli_fetch_assoc($result)){
     $shopName = $row['shop_name'];
     $shopImage = $row['shop_image'];
 
-     $reqCateogry = "SELECT * FROM `product_category` WHERE shop_id = '".$shopID."'";
+     $reqCateogry = "SELECT * FROM `product_category` WHERE is_show=0 AND shop_id = '".$shopID."'";
      $reqCateogry = mysqli_query($con, $reqCateogry);
 
      $catNames = array();
@@ -22,7 +29,7 @@ while($row = mysqli_fetch_assoc($result)){
          $shop_id = $catNamess['shop_id'];
          $cat_image = $catNamess['cat_image'];
 
-         $reqProduct = "SELECT * FROM `products` WHERE product_cat_id = '".$cat_id."'";
+         $reqProduct = "SELECT * FROM `products` WHERE enable_display='yes' AND product_cat_id = '".$cat_id."'";
          $reqProduct = mysqli_query($con, $reqProduct);
          $productNames = array();
          while($productName = mysqli_fetch_assoc($reqProduct)){
@@ -43,5 +50,8 @@ while($row = mysqli_fetch_assoc($result)){
 $fullar = "{ status: 1, message:'Hello', shops: ".json_encode($shops)." }";
 echo $fullar;
 
-
+} else{
+    echo "Authentication Failed";
+}
+}
 ?>
