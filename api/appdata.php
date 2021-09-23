@@ -18,6 +18,9 @@ while($row = mysqli_fetch_assoc($result)){
     $shopID = $row['shop_id'];
     $shopName = $row['shop_name'];
     $shopImage = $row['shop_image'];
+    $shopPhone = $row['shop_phone'];
+    $shopDec = $row['description'];
+    $shopBooking = $row['is_book'];
 
      $reqCateogry = "SELECT * FROM `product_category` WHERE is_show=0 AND shop_id = '".$shopID."'";
      $reqCateogry = mysqli_query($con, $reqCateogry);
@@ -41,7 +44,7 @@ while($row = mysqli_fetch_assoc($result)){
 
     }
 
-     $shops[] = array('shop_id'=>$shopID, 'shop_name'=>$shopName,'shop_image'=>$shopImage,'category'=>$catNames);
+     $shops[] = array('shop_id'=>$shopID, 'shop_name'=>$shopName,'shop_image'=>$shopImage, 'shop_phone'=>$shopPhone, 'description'=>$shopDec,'is_book'=>$shopBooking,'category'=>$catNames);
 
    
 

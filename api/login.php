@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $check_query = "SELECT `phone_number` FROM `user_details` WHERE `phone_number`='".$phone_number."'";
 $result = mysqli_query($con, $check_query);
 if(mysqli_num_rows($result)>0){
-    $update_token = "UPDATE `user_details` SET `token`='".$token."' WHERE phone_number=".$phone_number;
+    $update_token = "UPDATE `user_details` SET `token`='".$token."', `name`=".$name." WHERE phone_number=".$phone_number;
     mysqli_query($con,$update_token);
     $user_details_query = "SELECT * FROM `user_details` WHERE phone_number=".$phone_number;
         $user_details = mysqli_query($con, $user_details_query);

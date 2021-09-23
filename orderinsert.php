@@ -11,9 +11,9 @@ if ($_POST) {
    //   echo '<script type="text/javascript"> alert("Data Inserted Seccessfully!"); </script>';  // alert message
 
         $orderId = $_POST['orderId'];
-        $product = $_POST['product'];
-        $quantity = $_POST['quantity'];
-        $price = $_POST['price'];
+        // $product = $_POST['product'];
+        // $quantity = $_POST['quantity'];
+        // $price = $_POST['price'];
         $remark = $_POST['remark'];
         $status = $_POST['status'];
      //   $query = "UPDATE `orders` SET `quantity`=".$quantity.",`price`=".$price.",`order_status`=".$remark.",`remark`= ".$remark.",`product_name`=".$product." WHERE `order_id` =".$orderId;
@@ -79,10 +79,7 @@ if(isset($_POST["order_id"]))
 if(isset($_POST["order_id_view"]))  
  {  
    
-    
-
-    
-
+    $total_sum;
       $output = '';  
       if($_SESSION['shop_id']=='0'){
         $query = "SELECT * FROM `orders_products` WHERE `order_id` ='".$_POST["order_id_view"]."'";  
@@ -101,10 +98,12 @@ if(isset($_POST["order_id_view"]))
                   </tr>
               </thead>
               ';  
+            
       while($row = mysqli_fetch_array($result))  
       {  
         $shop_query = "SELECT * FROM shops WHERE shop_id=".$row['shop_id'];
         $shop_result = mysqli_query($con, $shop_query);
+          $total_sum = $total_sum + ($row['product_price'] * $row['quantity']);
            $output .= '<tbody>
             <td> '.$row['product_name'].'</td>
             <td> '.$row['quantity'].'</td>';
@@ -114,7 +113,7 @@ if(isset($_POST["order_id_view"]))
             $output .= '</tbody>';  
       }  
       $output .= '  
-      
+      <td>Total:  ₹'.$total_sum.'</td>
       </table>
       </div>  
       ';  

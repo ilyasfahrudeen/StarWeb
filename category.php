@@ -25,6 +25,7 @@ include('categoryserver.php');
                 <a href="category.php"><i class="fas fa-user-circle"></i>Category</a>
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+        <a href="shop.php"><i class="fas fa-user-circle"></i>Shop</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
 		</nav>

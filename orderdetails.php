@@ -29,9 +29,11 @@ header("refresh: 40;");
                 <a href="category.php"><i class="fas fa-user-circle"></i>Category</a>
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+                <a href="shop.php"><i class="fas fa-user-circle"></i>Shop</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }else{
-                    echo '<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
+                    echo '<a href="productchange.php"><i class="fas fa-user-circle"></i>Product Edit</a>
+                    <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }
                 ?>
 			</div>
@@ -48,7 +50,7 @@ header("refresh: 40;");
 <legend>ORDERS</legend>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bootstrap 4 Table with Emphasis Classes</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -67,7 +69,7 @@ header("refresh: 40;");
 </style>
 </head>
 <body>
-<div class="bs-example">
+<div style="overflow-x:auto;">
     <table class="table">
         <thead>
             <tr>

@@ -25,6 +25,7 @@ include('shopserver.php');
                 <a href="category.php"><i class="fas fa-user-circle"></i>Category</a>
                 <a href="product.php"><i class="fas fa-user-circle"></i>Product</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+        <a href="shop.php"><i class="fas fa-user-circle"></i>Shop</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
 		</nav>
@@ -43,6 +44,31 @@ include('shopserver.php');
   <div class="col-md-4">
   <input id="shop_name" name="shop_name" placeholder="Shop Name" class="form-control input-md" required="" type="text">
     
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="shop_phone">Shop Phone</label>  
+  <div class="col-md-4">
+  <input id="shop_phone" name="shop_phone" placeholder="Shop Phone" class="form-control input-md" required="" type="text">
+    
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="shop_des">Description</label>  
+  <div class="col-md-4">
+  <input id="shop_des" name="shop_des" placeholder="Description" class="form-control input-md" required="" type="text">
+    
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="is_book">Is Booking</label>
+  <div class="col-md-4">
+    <select id="is_book" name="is_book" class="form-control">
+    <!-- <option selected="selected">Choose one</option> -->
+    <option selected="selected" value = '0'>No</option>
+    <option value = '1'>Yes</option>
+    </select>
+
   </div>
 </div>
 <div class="form-group">
