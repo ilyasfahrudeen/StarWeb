@@ -32,7 +32,8 @@ header("refresh: 40;");
                 <a href="shop.php"><i class="fas fa-user-circle"></i>Shop</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }else{
-                    echo '<a href="productchange.php"><i class="fas fa-user-circle"></i>Product Edit</a>
+                    echo '<a href="orderdetails.php"><i class="fas fa-user-circle"></i>Orders</a>
+                    <a href="productchange.php"><i class="fas fa-user-circle"></i>Product Edit</a>
                     <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }
                 ?>

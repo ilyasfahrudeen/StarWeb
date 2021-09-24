@@ -14,7 +14,7 @@ if (!isset($_SESSION['loggedin'])) {
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Orders</title>
+		<title>Product Edit</title>
 		<link href="style.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 	</head>
@@ -31,7 +31,8 @@ if (!isset($_SESSION['loggedin'])) {
                 <a href="shop.php"><i class="fas fa-user-circle"></i>Shop</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }else{
-                    echo '<a href="productchange.php"><i class="fas fa-user-circle"></i>Product Edit</a>
+                    echo '<a href="orderdetails.php"><i class="fas fa-user-circle"></i>Orders</a>
+                    <a href="productchange.php"><i class="fas fa-user-circle"></i>Product Edit</a>
                     <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>';
                 }
                 ?>
@@ -46,8 +47,10 @@ if (!isset($_SESSION['loggedin'])) {
 <fieldset>
 
 <!-- Form Name -->
+
 <legend>PRODUCT EDIT</legend>
 <head>
+    
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bootstrap 4 Table with Emphasis Classes</title>
@@ -65,9 +68,92 @@ if (!isset($_SESSION['loggedin'])) {
     .bs-example{
     	margin: 10px;
     }
+    /* --------------------------- */
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
+
 </head>
 <body>
+<h3>
+
+ <?php 
+include 'conndb.php';
+ $query = "SELECT * FROM `shops` WHERE `shop_id`='".$_SESSION["shop_id"]."'";  
+ $result = mysqli_query($con, $query); 
+ while($row = mysqli_fetch_array($result)){
+     if($row['is_show'] == '0'){
+        echo '<div id="setQuickVar1"><label class="switch"><input id="shop_on" type="checkbox" data-switchery checked
+        /> <span class="slider round"> </lable>
+        </div> <div id="resultQuickVar1">Shop is visible</div> </span>
+        </label>';
+     } else {
+        echo '<div id="setQuickVar1"><label class="switch"><input id="shop_on" type="checkbox" data-switchery checked
+        /> <span class="slider round"> </lable>
+        </div> <div id="resultQuickVar1">Shop is not visible</div> </span>
+        </label>';
+     }
+ } 
+?>
+
+</h3>
 <div style="overflow-x:auto;">
     <table class="table">
         <thead>
@@ -75,7 +161,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <th>Product Name</th>
                 <th>Description</th>
                 <th>Price</th>
-             
+                <th>Showing</th>
             
             </tr>
         </thead>
@@ -116,25 +202,30 @@ $result_count = mysqli_query(
 
     if($_SESSION['is_admin'] == 0){
         $sqli = "SELECT * FROM `products`
-        ORDER BY product_id ASC LIMIT $offset, $total_records_per_page";
+        ORDER BY enable_display DESC LIMIT $offset, $total_records_per_page";
     }else{
       $sqli = "SELECT * FROM `products` WHERE shop_id=".$_SESSION['shop_id']."
-      ORDER BY product_id ASC LIMIT $offset, $total_records_per_page";
+      ORDER BY enable_display DESC LIMIT $offset, $total_records_per_page";
     }
 $result = mysqli_query($con, $sqli);
 while ($row = mysqli_fetch_array($result)) {
   
-    echo '<tr class="table-warning">';
-
+    if($row['enable_display'] == 'yes'){
+        echo '<tr class="table-warning">';
+        $row['order_status'] = 'Pending';
+         } elseif($row['enable_display'] == 'no'){        
+              echo ' <tr class="table-danger">';
+              $row['order_status'] = 'Cancelled';
+         }
  // echo '<td> '.$row['order_id'].'</td>';
  echo '<td name="MyTable" ><input type="hidden" name="td_1" value="value_1">'.$row['product_name'].'</td>';
   echo '<td> '.$row['product_details'].'</td>';
-  echo '<td> '.$row['product_price'].'</td>';
-
+  echo '<td> ₹'.$row['product_price'].'</td>';
+  echo '<td> '.$row['enable_display'].'</td>';
 //   echo '<td><input type="button" name="view" value="view" id="'.$row['order_id'].'" class="btn btn-info btn-xs view_item" data-toggle="modal" data-target="#dd"/></td>';
 //   echo '<td><input type="button" name="edit" value="edit" id="'.$row['order_id'].'" class="btn btn-info btn-xs edit_data" data-toggle="modal" data-target="#dd"/></td>';
 //   //if($_SESSION['is_admin'] == 0){
-    echo '<td><input type="button" name="status" value="status" id="'.$row['product_id'].'" class="btn btn-info btn-xs view_data" data-toggle="modal" data-target="#staticBackdrop"/></td>';
+    echo '<td><input type="button" name="status" value="Edit" id="'.$row['product_id'].'" class="btn btn-info btn-xs view_data" data-toggle="modal" data-target="#staticBackdrop"/></td>';
     //}
   }
   
@@ -218,6 +309,7 @@ echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
            // alert("Hello! I am an alert box!!");
             var productId = $('#product_id').val();
             var price = $('#price').val();
+            var enableDisplay = $('#enable_display').val();
         
 
             $.ajax({
@@ -228,7 +320,7 @@ echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
                     added: 1,
                     productId: productId,
                     price: price,
-                
+                    enableDisplay: enableDisplay
                 },
                 success: function(dataResult) {
                     var dataResult = JSON.parse(dataResult);
@@ -271,7 +363,21 @@ echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
             });
         });
 
-   
+   //toggle
+   $(document).ready(function() { 
+     $('#shop_on').on('click', function() {
+       var checkStatus = this.checked ? 'ON' : 'OFF';
+     //    alert(checkStatus);
+        $.post("productchangeinsert.php", {"quickVar1a": checkStatus}, 
+        function(data) {
+           $('#resultQuickVar1').html(data);
+        });
+
+     });
+});
+
+var tog = document.getElementById('shop_on');
+tog.checked;
 </script>
 
 	</body>
